@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Calculator</title>
+		<link href="css/site.css" rel="stylesheet">
+		<script src="javascripts/jquery-1.7.2.min.js"></script>
+		<!-- 側邊欄拉出特效 -->
+		<script src="javascripts/jquery.easing.1.3.js"></script>
+		<!-- menu特效 -->
+		<script src="javascripts/nav1.1.min.js"></script>
+		<style>
+			body{
+				background-color: #F5BCA9
+			}
+			div{
+				word-break: break-all;
+				font-size: 50px;
+			}
+			table{
+				position: relative;
+				top: 3px;
+				width: 400px;
+				border: 2px groove #FFAC55;
+				border-width: 6px;
+				background-color: white;
+			}
+			.head{
+				font-family: "微軟正黑體";
+				font-weight: 900;
+			}
+			#sign{
+				top: 0px;
+				height: 35px;
+				width: 249px;
+				position: absolute;
+				left: 1100px;
+				background-color: white;
+				z-index: 100;
+			}
+			#sign:hover{
+				background-color: rgb(110,138,195);
+			}
+			#sign form{
+				width: 300px;
+				display: none;
+				padding: 10px 10px 10px 10px;
+				background-color: white;
+			}
+			#sign .close{
+				background-color: rgb(110,138,195);
+			}
+			#login{
+				margin: 0;
+				cursor: pointer;
+				color: rgb(58,80,123);
+				padding: 5px 0 2px 30px;
+			}
+			#sign label{
+				width: 100px;
+				margin: 0 15px 0 0;
+				display: inline-block;
+				color: rgb(58,80,123);
+			}
+			#nav{
+				position: relative;
+				left: 50px;
+				height: 10px;
+				width: 80%
+			}
+			#nav a{
+				background-color: #AC58FA;
+				color: rgb(53,75,118);
+				padding: 0px;
+				border-top: 1px solid #ccc;
+				border-left:1px solid #ccc;
+				border-right:1px solid #999;
+				border-bottom:1px solid #999;
+			}
+			#nav a:hover{
+				border-top:1px solid #999;
+				border-left:1px solid #999;
+				border-right:1px solid #ccc;
+				border-bottom:1px solid #ccc;
+				background-color: #555;
+				color: white;
+			}
+			/*margin:調整外緣框的寬度*/
+			/*padding:調整內部物件與外框的距離*/
+			#nav ul,#nav li{
+					margin: 0;
+					padding: 0;
+					list-style-type: none;
+					z-index:100;
+			}
+			#abstract{
+				position: absolute;
+				right: 2%;
+				top: 35%;
+				width: 400px;
+				background-color: black;
+			}
+			#abstract_btn{
+				position: absolute;
+				left: 70%;
+				 width:80px;
+				 height:50px;
+				 font-size:25px;
+				 font-family:"標楷體";
+			}
+			.wrapper{
+				font-family: "微軟正黑體";
+				font-weight: 900;
+				height: 512px;
+			}
+			#dashboard {
+				width: 300px;
+				background-color: #08088A;
+				padding: 20px 20px 0 20px;
+				position: absolute;
+				top:50px;
+				left: -315px;
+				z-index: 120;
+				font-family: "標楷體";
+				font-weight: 900;
+			}
+			#operator{
+				font-size: 40px;
+				background-color: #BDBDBD;
+			}
+			#demo{
+				width: 300px;
+				font-size: 40px;
+				background-color: white;
+			}
+			#line{
+				width: 100%;
+				font-size: 8px;
+				background-color: #FFAC55;
+			}
+			.number{
+				cursor: pointer;
+				width: 100%;
+				border: 2px groove #FFAC55 ;
+				border-width: 20px;
+			}
+			.function{
+				cursor: pointer;
+				width: 100%;
+				border: 2px groove #FFAC55 ;
+				border-width: 20px;
+			}
+		</style>	
+	</head>
+	<body>
+		<!-- &nbps;代表空白 -->
+		<div class="head"><center>簡易計算機<br>+&nbsp;,&nbsp;-&nbsp;,&nbsp;*&nbsp;,&nbsp;/</center></div>
+		<!-- menu -->
+		<div id="nav">
+			<ul id="navigation">
+				<li><a href="j9963232q.github.io/Calculator.html">首頁</a></li>
+				<li><a>外部連結</a>
+					<ul>
+						<li><a href="http://j9963232q.github.io/index">關於我</a></li>
+						<li><a>好友相挺</a>
+							<ul>
+								<li><a href="jd615645.github.io/calc.html">DJ的計算機</a></li>
+								<li><a href="http://david30907d.github.io/CoursePickingHelper/">選課小幫手</a></li>
+							</ul>
+						</li>
+						<li><a>大家都愛</a>
+							<ul>
+								<li><a href="http://www.nchu.edu.tw/administrative.php?mid=64&uid=19">國立中興大學</a></li>
+								<li><a href="http://www.nchu.edu.tw/calendar/">興大行事曆</a></li>
+								<li><a href="https://eschool.firstbank.com.tw/member/index.aspx">第e學雜費入口</a></li>
+								<li><a href="http://www.lib.nchu.edu.tw/">興大圖書館</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>	
+		<!-- Login表單 -->
+		<div id="sign">
+			<p id="login">Login</p>
+			<form>
+				<p>
+					<label>Username:</label>
+					<input type="text">
+				</p>
+				<p>
+					<label>Password:</label>
+					<input type="text">
+				</p>
+				<p>
+					<input type="submit" value="Submit">&nbsp;
+					<input type="submit" value="sign up">
+				</p>
+			</form>
+		</div>
+		<div>
+		<!-- 側邊欄的表格 -->
+		<div id="dashboard">
+			<form> 
+				<!-- <br>為跳行 -->
+			      年齡:<br>
+			      <!-- required=必填內容,沒填會提醒 -->
+			      <input type="radio" name="userAge" value="age1" required>未滿20歲
+			      <input type="radio" name="userAge" value="age2">20~29
+			      <input type="radio" name="userAge" value="age3">30~39<br>
+			      <input type="radio" name="userAge" value="age4">40~49
+			      <input type="radio" name="userAge" value="age5">50以上<br>
+			      Email:<br>
+			      <input type="text" name="userEmail" required style="width:139px;height:20px;">
+			      @<select size="1">
+			      	<!-- <option>為下拉欄位 -->
+			        <option value="請選擇Email種類">請選擇Email種類
+			        <option value="yahoo.com">yahoo.com
+			        <option value="gmail.com">gmail.com
+			      </select><br>
+			     是否曾使用過計算機:<br>
+			        <input type="radio" name="used" value="有" required>有
+			        <input type="radio" name="used" value="沒有">沒有<br>
+			      對本站計算機的評價:((高)1~5(低))<br>
+			      外觀:<br>
+			        <input type="radio" name="performance" value="1" required>1
+			        <input type="radio" name="performance" value="2">2
+			        <input type="radio" name="performance" value="3">3
+			        <input type="radio" name="performance" value="4">4
+			        <input type="radio" name="performance" value="5">5<br>
+			      功能:<br>
+			        <input type="radio" name="function" value="1" required>1
+			        <input type="radio" name="function" value="2">2
+			        <input type="radio" name="function" value="3">3
+			        <input type="radio" name="function" value="4">4
+			        <input type="radio" name="function" value="5">5<br>
+			      您是否會想再度光臨本站:<br>
+			        <input type="radio" name="comeIn" value="想">想
+			        <input type="radio" name="comeIn" value="很想">很想
+			        <input type="radio" name="comeIn" value="超想">超想<br>
+			        <input type="radio" name="comeIn" value="已成癮">已成癮
+			        <input type="radio" name="comeIn" value="需就醫">需就醫<br>
+			      有問題:<br>
+			      <textarea type="text" name="problem" style="width:280px;height:140px;"></textarea><br>
+			      <!-- 表單中必須有type="submit"來提交 -->
+			      <center><input type="submit" value="提交"></center>
+		    </form>
+		</div>
+		<!-- 分隔線 -->
+		<hr color="purple" width="100%" style="border: 5px double;">
+		<!-- 簡介按鈕 -->
+		<button class="abstract_site" type="button" id="abstract_btn">
+		  簡介
+		</button>
+		<div class="abstract_site" id="abstract">
+		  <center><p class="text" style="color:yellow;">
+		    此網站的計算機乃簡易計算機(廢話XD),<br>運用電腦技術產生3D立體效果,<br>仿造舊式的簡易計算機外觀,<br>讓使用者喚起兒時記憶(年老?).<br>最後~當然希望蒞臨本站的顧客開"勳"~使用~~~<br> <br>P.S<br>若發現bug(問題),歡迎填寫左側的表單<br>鄙人會努力除蟲der~~
+		  </p></center>
+		</div>
+		<!-- 計算機本體 -->
+		<div class="wrapper">
+			<center><table>
+				<tr>
+					<td><div id="operator" style="text-align: center"></div></td>
+					<!-- colspan可控制跨越欄數 -->
+					<td colspan="4" ><div id="demo" style="text-align: right"></div></td>
+				</tr>
+				<tr><td colspan="5"><div id="line">&nbsp;</div></td></tr>
+				<tr>
+					<td><input type="button" class="number" value="7"></td>
+					<td><input type="button" class="number" value="8"></td>
+					<td><input type="button" class="number" value="9"></td>
+					<td colspan="2"><input type="button" class="function" value="C"></td>
+				</tr>
+				<tr>
+					<td><input type="button" class="number" value="4"></td>
+					<td><input type="button" class="number" value="5"></td>
+					<td><input type="button" class="number" value="6"></td>
+					<td><input type="button" class="function" value="+"></td>
+					<td><input type="button" class="function" value="-"></td>
+				</tr>
+				<tr>
+					<td><input type="button" class="number" value="1"></td>
+					<td><input type="button" class="number" value="2"></td>
+					<td><input type="button" class="number" value="3"></td>
+					<td><input type="button" class="function" value="*"></td>
+					<td><input type="button" class="function" value="/"></td>
+				</tr>
+				<tr>
+					<td><input type="button" class="number" value="0"></td>
+					<td><input type="button" class="number" value="00"></td>
+					<td><input type="button" class="number" value="."></td>
+					<td colspan="2"><input type="button" class="function" value="="></td>
+				</tr>
+			</table></center>
+		</div>
+		</div>
+		<!-- 以下為js的function -->
+		<script>
+			$(document).ready(function(){
+
+				//Login表單顯現
+				$('#login').click(function(){
+					$('#sign form').slideToggle(300);//slideToggle()可以讓隱藏狀態的物件顯現
+					$(this).toggleClass('close');//添入class,使原先狀態改成顯現表單時的狀態
+				});//Login表單顯現 end
+
+				//menu的特效
+				$("#navigation").navPlugin({
+				   'itemWidth': 140,
+				   'itemHeight': 30,
+				   'navEffect': "slide",
+				   'speed': 250
+				 });//menu的特效 end
+
+				$('#abstract').hide();
+				//打開&關閉簡介內容
+				$('#abstract_btn').toggle(
+					function()
+					{
+						$('#abstract').show();
+					},
+					function()
+					{
+						$('#abstract').hide();
+					}
+				);//打開&關閉簡介內容 end
+
+				//prom來判斷最後按的功能鍵,k=1表示在沒有數字時的運算
+				var number="",result=0.0,operator="",operand=0.0,k=1,prom=0,mode=0,cnt_firstzero=0,cnt_point=0,ans=0;
+				var after_number="";
+				//以下為計算機的function
+				$('#demo').text("0");
+				//按下數字鍵時
+				$('.number').click(function(){
+					//避免數字開頭為0(不包含小數),2個以上的小數點
+					//val()可取得value值
+					if((cnt_firstzero==1&&$(this).val()=='0')||(cnt_firstzero==1&&$(this).val()=='00')||(number==""&&$(this).val()=="00")||(cnt_point==1&&$(this).val()=='.')||(number==""&&$(this).val()=='.'))
+					{
+					}
+					//顯示處
+					else
+					{
+						cnt_firstzero=0;
+						after_number=$(this).val();
+						if(ans==1)//當按完"="後直接按數字
+						{
+							operand=0.0;
+							number="";
+							cnt_point=0;
+							cnt_firstzero=0;
+							result=0.0;
+							k=1;
+							prom=0;
+							ans=0;
+						}
+						if(number=="")
+						{
+							prom--;
+						}
+						if($(this).val()=='.')
+						{
+							cnt_point=1;
+						}
+						if($(this).val()=='0'&&number=="")
+						{
+							cnt_firstzero=1;
+						}
+						number+=after_number;
+						$('#demo').text(number);
+					}
+					
+				});//按下數字鍵時 end
+				//按功能鍵時
+				$('.function').click(function(){	
+					cnt_point=0;
+					cnt_firstzero=0;
+					$('#operator').text($(this).val());	
+					if(ans==1)//防止按"="後,直接按數字或按功能可能發生的錯
+					{
+						ans=0;
+					}
+					if($(this).val()=='=')
+					{
+						$('#operator').text("");
+						ans=1;
+					}			
+					
+					if($(this).val()=='C')
+					{
+						$('#operator').text("");	
+						operator="";
+						operand="";
+						number="";
+						cnt_point=0;
+						cnt_firstzero=0;
+						result=0.0;
+						$('#demo').text("0");
+						k=1;
+						prom=0;
+						
+					}
+					else if(k==1&&number=="")
+					{
+						prom=-1;
+					}
+					prom++;
+					if(k==1&&prom!=1)
+					{
+						if(number=="")
+						{
+							operator=$(this).val();
+							k=0;
+						}
+						else
+						{
+							//parseFloat()將字串轉浮點數
+							result=parseFloat(number);
+							number="";
+							operator=$(this).val();
+							$('#demo').text(result);
+							k=0;
+						}
+					}
+					else if(prom==1)
+					{
+						operator=$(this).val();
+						prom=0;
+					}
+					else if(operator=='/'&&parseFloat(number)==0)
+					{
+						alert("除數不可以為0!請重新輸入!");
+						$('#demo').text(result);
+						number="";
+						mode=1;
+						operator=$(this).val();
+					}
+					else
+					{
+						operand=parseFloat(number);
+						switch(operator)
+						{
+							case '+':
+								result+=operand;
+								break;
+							case '-':
+								result-=operand;
+								break;
+							case '*':
+								result*=operand;
+								break;
+							case '/':
+								result/=operand;
+								break;
+							case '=':
+								operand="";
+								k=1;
+								prom=0;
+							default:break;
+						}
+						number="";
+						if(operator!='=')
+						{
+							operator=$(this).val();
+						}
+						else
+						{
+							operator="";
+						}
+						$('#demo').text(result);	
+					}
+				});//按功能鍵時 end
+				//以下為計算機的function end
+
+				//以下為側拉欄位的設定
+				$('#dashboard').hover(
+				     function() {
+						$(this).stop().animate(
+						{
+							left: '0',
+							backgroundColor: 'rgb(255,255,255)'
+						},
+						500,
+						'easeInSine'
+						); // end animate
+					 }, 
+					 function() {
+						 $(this).stop().animate(
+						{
+							left: '-315px',
+							backgroundColor: 'rgb(110,138,195)'
+						},
+						1500,
+						'easeOutBounce'
+						); // end animate
+					 }
+				  ); //以下為側拉欄位的設定 end
+
+				//以下為表單的結果反應
+				var form_val=[" "," ",' ',' ',' '," "," "],i,fuck=0;
+				$('form').submit(
+					function(){
+						form_val[0]=$('input:radio:checked[name="userAge"]').val();
+						form_val[1]=$('input[name="userEmail"]').text();
+						form_val[2]=$('input:radio:checked[name="used"]').val();
+						form_val[3]=$('input:radio:checked[name="performance"]').val();
+						form_val[4]=$('input:radio:checked[name="function"]').val();
+						form_val[5]=$('input:radio:checked[name="comeIn"]').val();
+						form_val[6]=$('input[name="problem"]').text();
+						for(i=2;i<5;i++)
+						{
+							if(form_val[i]=='5')
+							{
+								fuck++;
+							}
+						}
+						switch(fuck)
+						{
+							case 0:alert("你很誠實~");
+							break;
+							case 1:alert("我們會改進的~");
+							break;
+							case 2:alert("你有點傲嬌喔~");
+							break;
+							default:break;
+						}
+					});//以下為表單的結果反應 end
+			});//ready end
+		</script>
+	</body>
+</html>
